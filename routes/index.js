@@ -18,7 +18,7 @@ async function webhook(req, res) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
+    payload: JSON.stringify(data)
   });
 
   if (response.ok) {
