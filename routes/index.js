@@ -13,6 +13,14 @@ router.post('/', webhook);
 async function webhook(req, res) {
   const body = req.body; // <= {from: '***', subject: '', body: ''}
   console.log(body);
+
+  const prompt = `以下のメールを要約して\n
+    送信者: ${body.from}\n
+    概要: ${body.subject}\n
+    本文: ${body.body}
+    `;
+  
+  const summary = await gemini.run(prompt);
   
   const options = {
     method: 'POST',
@@ -21,10 +29,14 @@ async function webhook(req, res) {
     },
   }
   const data = JSON.stringify({
-    content: body
+    content: {
+      from: body.from,
+      subject: body.subject,
+      body: summary
+    }
   });
   
-  const request = https.request(url, options);
+  const request = https.request(process.env.LINE_BOT_URL, options);
   request.write(data);
   request.end();
 
