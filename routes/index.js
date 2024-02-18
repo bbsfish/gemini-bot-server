@@ -8,13 +8,13 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbxPBl6lgCrs2PHNhQEcJkFS
 router.post('/', async (req, res) => {
   const data = req.body; // <= {from: '***', subject: '', body: ''}
   console.log(data);
-  const res = await fetch(GAS_URL, {
+  const response = await fetch(GAS_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     }
   });
-  if (res.ok) {
+  if (response.ok) {
     const result = await res.json();
     console.log(result);
   }
