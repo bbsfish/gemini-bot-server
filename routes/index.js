@@ -3,7 +3,7 @@ const router = express.Router();
 
 const gemini = require('../apis/gemini-ai.js');
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.sendStatus(200);
 });
 
