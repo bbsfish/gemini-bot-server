@@ -3,24 +3,33 @@ const router = express.Router();
 
 const gemini = require('../apis/gemini-ai.js');
 
-/* GET home page. */
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxPBl6lgCrs2PHNhQEcJkFSz0A0R-reH-m1exfXYHCZd30jy9shoBFz5-gxvIMK_Xk6/exec';
-router.post('/', async (req, res) => {
+app.get("/", (req, res) => {
+  res.sendStatus(200);
+});
+
+router.post('/', webhook);
+
+async function webhook(req, res) {
   const data = req.body; // <= {from: '***', subject: '', body: ''}
   console.log(data);
-  const response = await fetch(GAS_URL, {
+  
+  const response = await fetch(process.env.LINE_BOT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify(data)
   });
+
   if (response.ok) {
-    const result = await res.json();
-    console.log(result);
+    // const result = await res.json();
+    console.log('ok!');
+  } else {
+    console.log('error!');
   }
 
 
   res.end();
-});
+}
 
 module.exports = router;
